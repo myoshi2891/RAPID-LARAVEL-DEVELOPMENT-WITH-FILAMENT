@@ -2,18 +2,20 @@
 
 namespace App\Filament\Resources;
 
+use Filament\Forms;
+use Filament\Tables;
 use App\Enums\Region;
+use App\Models\Venue;
+use App\Models\Speaker;
+use Filament\Forms\Form;
+use App\Models\Conference;
+use Filament\Tables\Table;
+use Filament\Resources\Resource;
+use Illuminate\Database\Eloquent\Builder;
+use Filament\Forms\Components\CheckboxList;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\ConferenceResource\Pages;
 use App\Filament\Resources\ConferenceResource\RelationManagers;
-use App\Models\Conference;
-use App\Models\Venue;
-use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
-use Filament\Tables;
-use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ConferenceResource extends Resource
 {
@@ -60,7 +62,13 @@ class ConferenceResource extends Resource
                     ->editOptionForm(Venue::getForm())
                     ->relationship('venue', 'name', modifyQueryUsing: function (Builder $query, Forms\Get $get) {
                         return $query->where('region', $get('region'));
-                    })
+                    }),
+                CheckboxList::make('speakers')
+                    ->relationship('speakers', 'name')
+                    ->options(
+                        Speaker::all()->pluck('name', 'id')
+                    )
+                    ->required(),
             ]);
     }
 
