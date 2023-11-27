@@ -2,9 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Speaker;
+use App\Enums\TalkLength;
+use App\Enums\TalkStatus;
+use App\Models\Conference;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Talk extends Model
@@ -14,6 +18,8 @@ class Talk extends Model
     protected $casts = [
         'id' => 'integer',
         'speaker_id' => 'integer',
+        'status' => TalkStatus::class,
+        'length' => TalkLength::class,
     ];
 
     public function speaker(): BelongsTo
