@@ -16,6 +16,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Infolists\Components\Group;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Infolists\Components\Section;
+use RelationManagers\TalksRelationManager;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Infolists\Components\ImageEntry;
@@ -127,7 +128,8 @@ class SpeakerResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\TalksRelationManager::class,
+            // RelationManagers\TalksRelationManager::class,
         ];
     }
 

@@ -6,7 +6,11 @@ use App\Models\Speaker;
 use App\Enums\TalkLength;
 use App\Enums\TalkStatus;
 use App\Models\Conference;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Illuminate\Database\Eloquent\Model;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\RichEditor;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -46,4 +50,22 @@ class Talk extends Model
         $this->save(); 
     }
 
+    public static function getForm($speakerId = null): array
+    {
+        return [                
+            TextInput::make('title')
+                ->required()
+                ->maxLength(255),
+            RichEditor::make('abstract')
+                ->required()
+                ->maxLength(65535)
+                ->columnSpanFull(),
+            Select::make('speaker_id')
+                ->hidden(function () use ($speakerId){
+                    return $speakerId !== null;
+                })
+                ->relationship('speaker', 'name')
+                ->required(),
+        ];
+    }
 }
