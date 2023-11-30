@@ -7,6 +7,7 @@ use App\Enums\Region;
 use App\Models\Venue;
 use App\Models\Speaker;
 use Filament\Forms\Get;
+use App\Models\Attendee;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
@@ -23,6 +24,7 @@ use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\MarkdownEditor;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -52,6 +54,11 @@ class Conference extends Model
     public function talks(): BelongsToMany
     {
         return $this->belongsToMany(Talk::class);
+    }
+
+    public function attendees(): HasMany
+    {
+        return $this->hasMany(Attendee::class);
     }
 
     public static function getForm(): array
